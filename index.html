@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="记录、统计并展示班级学习投入的学习打卡数据看板">
+  <title>学习打卡数据看板</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="#home" data-view="home" aria-label="学习打卡数据看板首页">
+        <span class="brand-mark" aria-hidden="true">学</span>
+        <span>
+          <strong>学习打卡</strong>
+          <small>班级数据看板</small>
+        </span>
+      </a>
+      <nav class="main-nav" aria-label="主要导航">
+        <button type="button" data-view="home" aria-current="page">首页</button>
+        <button type="button" data-view="checkin">学习打卡</button>
+        <button type="button" data-view="records">记录列表</button>
+        <button type="button" data-view="personal">个人统计</button>
+        <button type="button" data-view="dashboard">班级看板</button>
+        <button type="button" data-view="reports">学习报告</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="shell page-main" tabindex="-1">
+    <section id="view-home" class="view" data-page-title="首页">
+      <div class="hero">
+        <p class="eyebrow">让每一次学习投入都有迹可循</p>
+        <h1>学习打卡数据看板</h1>
+        <p>从每日记录到班级趋势，用清晰的数据反馈帮助同学们保持节奏、看见成长。</p>
+        <button class="button button-primary" type="button" data-view="checkin">开始今日打卡</button>
+      </div>
+      <div class="metric-grid" aria-label="班级核心数据">
+        <article class="metric-card"><span>今日打卡</span><strong>—</strong><small>参与学生</small></article>
+        <article class="metric-card"><span>本周学习</span><strong>—</strong><small>累计小时</small></article>
+        <article class="metric-card"><span>累计打卡</span><strong>—</strong><small>学习记录</small></article>
+        <article class="metric-card"><span>热门课程</span><strong>—</strong><small>本周投入最多</small></article>
+      </div>
+    </section>
+
+    <section id="view-checkin" class="view" data-page-title="学习打卡" hidden>
+      <header class="section-heading"><p class="eyebrow">数据入口</p><h1>学习打卡</h1><p>记录今天的学习投入，为统计和成长反馈提供依据。</p></header>
+      <div class="placeholder-panel">打卡表单将在阶段一接入。</div>
+    </section>
+
+    <section id="view-records" class="view" data-page-title="记录列表" hidden>
+      <header class="section-heading"><p class="eyebrow">学习足迹</p><h1>记录列表</h1><p>查看并管理已经保存的学习记录。</p></header>
+      <div class="placeholder-panel">记录列表将在阶段一接入。</div>
+    </section>
+
+    <section id="view-personal" class="view" data-page-title="个人统计" hidden>
+      <header class="section-heading"><p class="eyebrow">个人成长</p><h1>个人统计</h1><p>了解学习时长、坚持天数与课程投入。</p></header>
+      <div class="placeholder-panel">个人统计将在阶段二接入。</div>
+    </section>
+
+    <section id="view-dashboard" class="view" data-page-title="班级看板" hidden>
+      <header class="section-heading"><p class="eyebrow">班级全景</p><h1>班级学习数据看板</h1><p>集中展示关键指标、趋势、课程分布和学习之星。</p></header>
+      <div class="placeholder-panel">班级图表将在阶段一和阶段二逐步接入。</div>
+    </section>
+
+    <section id="view-reports" class="view" data-page-title="学习报告" hidden>
+      <header class="section-heading"><p class="eyebrow">数据反馈</p><h1>学习报告</h1><p>根据个人和班级统计结果生成简短总结。</p></header>
+      <div class="placeholder-panel">学习报告将在阶段二接入。</div>
+    </section>
+  </main>
+
+  <div id="app-notification" class="notification" aria-live="polite" aria-atomic="true"></div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/app.js"></script>
+</body>
+</html>

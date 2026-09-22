@@ -1,0 +1,9 @@
+{
+  "name": "learning-checkin-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "面向班级学习打卡、统计与展示的纯前端数据看板",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  }
+}
