@@ -24,16 +24,22 @@
 .section-heading { max-width: 760px; margin-bottom: var(--space-5); }
 .section-heading h1 { margin-bottom: var(--space-2); font-size: clamp(2rem, 3.5vw, 3.5rem); }
 .section-heading > p:last-child { color: var(--color-muted); }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+.field-wide { grid-column: 1 / -1; }
+.dashboard-metrics { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-bottom: var(--space-4); }
 
 @media (max-width: 960px) {
   .header-inner { align-items: flex-start; flex-direction: column; padding-block: 0.75rem; }
   .main-nav { justify-content: flex-start; }
   .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dashboard-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 560px) {
   .shell { width: min(calc(100% - 1.25rem), var(--content-max)); }
   .metric-grid { grid-template-columns: 1fr; }
+  .form-grid, .dashboard-metrics { grid-template-columns: 1fr; }
+  .field-wide { grid-column: auto; }
   .main-nav { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; }
   .main-nav button { text-align: center; }
 }

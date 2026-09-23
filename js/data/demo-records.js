@@ -44,8 +44,8 @@
           completionStatus: studentIndex % 4 === 0 ? "partial" : "completed",
           reflection: "按计划完成了本次学习，并记录了需要继续巩固的知识点。",
           nextPlan: "复习今日内容并完成下一组练习。",
-          createdAt: `${dateText}T${String(9 + studentIndex).padStart(2, "0")}:00:00+08:00`,
-          updatedAt: `${dateText}T${String(9 + studentIndex).padStart(2, "0")}:00:00+08:00`
+          createdAt: `${dateText}T00:00:00+08:00`,
+          updatedAt: `${dateText}T00:00:00+08:00`
         });
       });
     }

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="记录、统计并展示班级学习投入的学习打卡数据看板">
   <title>学习打卡数据看板</title>
+  <link rel="icon" href="data:,">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -41,21 +42,36 @@
         <button class="button button-primary" type="button" data-view="checkin">开始今日打卡</button>
       </div>
       <div class="metric-grid" aria-label="班级核心数据">
-        <article class="metric-card"><span>今日打卡</span><strong>—</strong><small>参与学生</small></article>
-        <article class="metric-card"><span>本周学习</span><strong>—</strong><small>累计小时</small></article>
-        <article class="metric-card"><span>累计打卡</span><strong>—</strong><small>学习记录</small></article>
-        <article class="metric-card"><span>热门课程</span><strong>—</strong><small>本周投入最多</small></article>
+        <article class="metric-card"><span>今日打卡</span><strong id="metric-today">0 人</strong><small>参与学生</small></article>
+        <article class="metric-card"><span>本周学习</span><strong id="metric-week-hours">0 小时</strong><small>累计投入</small></article>
+        <article class="metric-card"><span>累计打卡</span><strong id="metric-total-checkins">0 次</strong><small>学习记录</small></article>
+        <article class="metric-card"><span>热门课程</span><strong id="metric-popular-course">暂无数据</strong><small>本周投入最多</small></article>
       </div>
     </section>
 
     <section id="view-checkin" class="view" data-page-title="学习打卡" hidden>
       <header class="section-heading"><p class="eyebrow">数据入口</p><h1>学习打卡</h1><p>记录今天的学习投入，为统计和成长反馈提供依据。</p></header>
-      <div class="placeholder-panel">打卡表单将在阶段一接入。</div>
+      <form id="checkin-form" class="form-card" novalidate>
+        <div class="form-grid">
+          <div class="field"><label for="student-name">姓名或昵称</label><input id="student-name" name="studentName" maxlength="20" autocomplete="name" required><small data-error-for="studentName"></small></div>
+          <div class="field"><label for="checkin-date">学习日期</label><input id="checkin-date" name="date" type="date" required><small data-error-for="date"></small></div>
+          <div class="field"><label for="course">课程或方向</label><select id="course" name="course" required><option value="">请选择课程</option><option>程序设计基础</option><option>高等数学</option><option>大学英语</option><option>计算机导论</option><option>思想道德与法治</option></select><small data-error-for="course"></small></div>
+          <div class="field"><label for="duration-hours">学习时长</label><div class="input-suffix"><input id="duration-hours" name="durationHours" type="number" min="0.1" max="24" step="0.1" inputmode="decimal" required><span>小时</span></div><small data-error-for="durationHours"></small></div>
+          <div class="field field-wide"><label for="content">学习内容</label><textarea id="content" name="content" rows="3" maxlength="200" required></textarea><small data-error-for="content"></small></div>
+          <div class="field"><label for="completion-status">完成情况</label><select id="completion-status" name="completionStatus"><option value="completed">已完成</option><option value="partial">部分完成</option><option value="not-completed">未完成</option></select><small data-error-for="completionStatus"></small></div>
+          <div class="field field-wide"><label for="reflection">今日收获 <span>选填</span></label><textarea id="reflection" name="reflection" rows="2" maxlength="300"></textarea><small data-error-for="reflection"></small></div>
+          <div class="field field-wide"><label for="next-plan">明日计划 <span>选填</span></label><textarea id="next-plan" name="nextPlan" rows="2" maxlength="300"></textarea><small data-error-for="nextPlan"></small></div>
+        </div>
+        <div class="form-actions"><p>提交后，记录将保存在当前浏览器中。</p><button class="button button-primary" type="submit">保存学习打卡</button></div>
+      </form>
     </section>
 
     <section id="view-records" class="view" data-page-title="记录列表" hidden>
       <header class="section-heading"><p class="eyebrow">学习足迹</p><h1>记录列表</h1><p>查看并管理已经保存的学习记录。</p></header>
-      <div class="placeholder-panel">记录列表将在阶段一接入。</div>
+      <div class="table-card">
+        <div id="records-empty" class="empty-state" hidden><strong>还没有学习记录</strong><span>完成第一次打卡后，记录会显示在这里。</span></div>
+        <div class="table-scroll"><table><thead><tr><th>姓名</th><th>日期</th><th>课程</th><th>学习内容</th><th>时长</th><th>完成情况</th></tr></thead><tbody id="records-body"></tbody></table></div>
+      </div>
     </section>
 
     <section id="view-personal" class="view" data-page-title="个人统计" hidden>
@@ -65,7 +81,14 @@
 
     <section id="view-dashboard" class="view" data-page-title="班级看板" hidden>
       <header class="section-heading"><p class="eyebrow">班级全景</p><h1>班级学习数据看板</h1><p>集中展示关键指标、趋势、课程分布和学习之星。</p></header>
-      <div class="placeholder-panel">班级图表将在阶段一和阶段二逐步接入。</div>
+      <div class="metric-grid dashboard-metrics" aria-label="班级看板核心指标">
+        <article class="metric-card"><span>今日打卡</span><strong id="dashboard-today">0 人</strong></article>
+        <article class="metric-card"><span>本周参与</span><strong id="dashboard-week-participants">0 人</strong></article>
+        <article class="metric-card"><span>本周学习</span><strong id="dashboard-week-hours">0 小时</strong></article>
+        <article class="metric-card"><span>人均学习</span><strong id="dashboard-average-hours">0 小时</strong></article>
+        <article class="metric-card"><span>热门课程</span><strong id="dashboard-popular-course">暂无数据</strong></article>
+      </div>
+      <article class="chart-card"><div class="card-heading"><div><p class="eyebrow">课程投入</p><h2>本周课程学习时长</h2></div><span>单位：小时</span></div><div id="chart-course-bar" class="chart" aria-label="本周课程学习时长柱状图"></div></article>
     </section>
 
     <section id="view-reports" class="view" data-page-title="学习报告" hidden>
@@ -82,6 +105,11 @@
   <script defer src="js/storage/record-repository.js"></script>
   <script defer src="js/domain/record-validator.js"></script>
   <script defer src="js/domain/statistics.js"></script>
+  <script defer src="js/ui/notification.js"></script>
+  <script defer src="js/ui/form-view.js"></script>
+  <script defer src="js/ui/records-view.js"></script>
+  <script defer src="js/ui/dashboard-view.js"></script>
+  <script defer src="js/ui/charts-view.js"></script>
   <script defer src="js/app.js"></script>
 </body>
 </html>
