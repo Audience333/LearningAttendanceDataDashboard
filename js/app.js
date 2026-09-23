@@ -4,6 +4,7 @@
   const app = root.LearningDashboard = root.LearningDashboard || {};
   let repository = null;
   let recordFilters = {};
+  let selectedStudent = "";
 
   function todayString() {
     return app.Statistics.formatLocalDate(new Date());
@@ -23,6 +24,16 @@
     app.RecordsView.render(app.RecordFilter.filterRecords(records, recordFilters));
     app.DashboardView.render(summary);
     app.ChartsView.renderCourseBar(summary.courseDurations);
+    const names = app.Statistics.getStudentNames(records);
+    const picker = document.getElementById("personal-student");
+    if (picker) {
+      selectedStudent = names.includes(selectedStudent) ? selectedStudent : (names[0] || "");
+      picker.replaceChildren(...names.map(name => { const option = document.createElement("option"); option.value = name; option.textContent = name; option.selected = name === selectedStudent; return option; }));
+    }
+    const studentSummary = app.Statistics.buildStudentSummary(records, selectedStudent, new Date());
+    app.PersonalView.render(studentSummary);
+    document.getElementById("class-report").textContent = app.ReportGenerator.generateClassReport(summary);
+    document.getElementById("student-report").textContent = app.ReportGenerator.generateStudentReport(studentSummary);
   }
 
   function handleSubmit(input) {
@@ -84,6 +95,15 @@
     });
   }
 
+  function initInsights() {
+    document.getElementById("personal-student").addEventListener("change", event => { selectedStudent = event.target.value; refreshAll(); });
+    document.querySelectorAll("[data-copy-report]").forEach(button => button.addEventListener("click", async () => {
+      const text = document.getElementById(button.dataset.copyReport).textContent;
+      try { await navigator.clipboard.writeText(text); app.Notification.show("报告已复制到剪贴板。", "success"); }
+      catch { app.Notification.show("复制不可用，请手动选择报告文字。", "error"); }
+    }));
+  }
+
   function initDataFlow() {
     repository = app.RecordRepository.createRecordRepository(root.localStorage, app.CONFIG);
     const state = repository.load();
@@ -96,6 +116,7 @@
     app.FormView.bind({ onSubmit: handleSubmit });
     app.RecordsView.bind({ onEdit: handleEdit, onDelete: handleDelete });
     initRecordFilters();
+    initInsights();
     refreshAll();
     root.addEventListener("resize", app.ChartsView.resizeAll);
   }

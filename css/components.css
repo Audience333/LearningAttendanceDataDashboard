@@ -75,6 +75,12 @@ th { background: var(--color-surface-soft); color: var(--color-muted); font-size
 .empty-state span { color: var(--color-muted); }
 
 .chart-card { padding: var(--space-4); }
+.student-picker { display: grid; max-width: 320px; gap: 0.45rem; margin-bottom: var(--space-4); font-weight: 700; }
+.student-picker select { border: 1px solid var(--color-border); border-radius: var(--radius-control); padding: 0.72rem; }
+.trend-text, .report-text { color: var(--color-muted); line-height: 1.8; white-space: pre-wrap; }
+.report-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+.rank-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); margin-bottom: var(--space-4); }
+.rank-list { margin: var(--space-3) 0 0; padding-left: 1.3rem; color: var(--color-muted); line-height: 2; }
 .card-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); }
 .card-heading h2 { margin-bottom: 0; }
 .card-heading > span { color: var(--color-muted); font-size: 0.82rem; }
@@ -102,4 +108,6 @@ th { background: var(--color-surface-soft); color: var(--color-muted); font-size
 @media (max-width: 560px) {
   .form-actions, .card-heading { align-items: stretch; flex-direction: column; }
   .filter-card { grid-template-columns: 1fr; }
+  .report-grid { grid-template-columns: 1fr; }
+  .rank-grid { grid-template-columns: 1fr; }
 }

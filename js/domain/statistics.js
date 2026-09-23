@@ -95,6 +95,31 @@
     )).slice(0, limit);
   }
 
+  function getStudentNames(records) {
+    return [...new Set(records.map(record => record.studentName).filter(Boolean))]
+      .sort((left, right) => left.localeCompare(right, "zh-CN"));
+  }
+
+  function buildPersistenceStars(records, limit = 3) {
+    return getStudentNames(records).map(studentName => {
+      const studentRecords = records.filter(record => record.studentName === studentName);
+      return { studentName, streakDays: calculateStreak(studentRecords), checkinDays: new Set(studentRecords.map(record => record.date)).size };
+    }).sort((left, right) => (
+      right.streakDays - left.streakDays
+      || right.checkinDays - left.checkinDays
+      || left.studentName.localeCompare(right.studentName, "zh-CN")
+    )).slice(0, limit);
+  }
+
+  function getTrendDirection(trend) {
+    const midpoint = Math.ceil(trend.length / 2);
+    const early = trend.slice(0, midpoint).reduce((sum, point) => sum + Number(point.durationHours || 0), 0);
+    const recent = trend.slice(midpoint).reduce((sum, point) => sum + Number(point.durationHours || 0), 0);
+    if (recent > early) return "上升";
+    if (recent < early) return "回落";
+    return "平稳";
+  }
+
   function calculateStreak(records) {
     const dates = [...new Set(records.map(record => record.date))].sort().reverse();
     if (dates.length === 0) return 0;
@@ -152,7 +177,9 @@
       popularCourse: courseDurations[0]?.course || "暂无数据",
       courseDurations,
       sevenDayTrend: buildSevenDayTrend(records, now),
-      learningStars: buildLearningStars(records, now)
+      learningStars: buildLearningStars(records, now),
+      persistenceStars: buildPersistenceStars(records),
+      sevenDayDirection: getTrendDirection(buildSevenDayTrend(records, now))
     };
   }
 
@@ -164,6 +191,9 @@
     buildStudentSummary,
     buildSevenDayTrend,
     groupDurationByCourse,
-    buildLearningStars
+    buildLearningStars,
+    getStudentNames,
+    buildPersistenceStars,
+    getTrendDirection
   };
 });

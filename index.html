@@ -84,7 +84,9 @@
 
     <section id="view-personal" class="view" data-page-title="个人统计" hidden>
       <header class="section-heading"><p class="eyebrow">个人成长</p><h1>个人统计</h1><p>了解学习时长、坚持天数与课程投入。</p></header>
-      <div class="placeholder-panel">个人统计将在阶段二接入。</div>
+      <label class="student-picker">选择同学<select id="personal-student"></select></label>
+      <div class="metric-grid" aria-label="个人学习数据"><article class="metric-card"><span>累计打卡</span><strong id="personal-checkins">0 次</strong></article><article class="metric-card"><span>累计时长</span><strong id="personal-total-hours">0 小时</strong></article><article class="metric-card"><span>本周学习</span><strong id="personal-week-hours">0 小时</strong></article><article class="metric-card"><span>连续打卡</span><strong id="personal-streak">0 天</strong></article></div>
+      <article class="chart-card"><div class="card-heading"><h2>近七天学习趋势</h2><span id="personal-course">热门课程：暂无数据</span></div><p id="personal-trend" class="trend-text">暂无个人学习记录</p></article>
     </section>
 
     <section id="view-dashboard" class="view" data-page-title="班级看板" hidden>
@@ -95,13 +97,14 @@
         <article class="metric-card"><span>本周学习</span><strong id="dashboard-week-hours">0 小时</strong></article>
         <article class="metric-card"><span>人均学习</span><strong id="dashboard-average-hours">0 小时</strong></article>
         <article class="metric-card"><span>热门课程</span><strong id="dashboard-popular-course">暂无数据</strong></article>
-      </div>
-      <article class="chart-card"><div class="card-heading"><div><p class="eyebrow">课程投入</p><h2>本周课程学习时长</h2></div><span>单位：小时</span></div><div id="chart-course-bar" class="chart" aria-label="本周课程学习时长柱状图"></div></article>
+        </div>
+        <div class="rank-grid"><article class="chart-card"><h2>学习之星</h2><ol id="learning-stars" class="rank-list"></ol></article><article class="chart-card"><h2>坚持之星</h2><ol id="persistence-stars" class="rank-list"></ol></article></div>
+        <article class="chart-card"><div class="card-heading"><div><p class="eyebrow">课程投入</p><h2>本周课程学习时长</h2></div><span>单位：小时</span></div><div id="chart-course-bar" class="chart" aria-label="本周课程学习时长柱状图"></div></article>
     </section>
 
     <section id="view-reports" class="view" data-page-title="学习报告" hidden>
       <header class="section-heading"><p class="eyebrow">数据反馈</p><h1>学习报告</h1><p>根据个人和班级统计结果生成简短总结。</p></header>
-      <div class="placeholder-panel">学习报告将在阶段二接入。</div>
+      <div class="report-grid"><article class="chart-card"><div class="card-heading"><h2>班级学习报告</h2><button class="button button-secondary" type="button" data-copy-report="class-report">复制</button></div><p id="class-report" class="report-text"></p></article><article class="chart-card"><div class="card-heading"><h2>个人学习报告</h2><button class="button button-secondary" type="button" data-copy-report="student-report">复制</button></div><p id="student-report" class="report-text"></p></article></div>
     </section>
   </main>
 
@@ -113,10 +116,12 @@
   <script defer src="js/storage/record-repository.js"></script>
   <script defer src="js/domain/record-validator.js"></script>
   <script defer src="js/domain/record-filter.js"></script>
+  <script defer src="js/domain/report-generator.js"></script>
   <script defer src="js/domain/statistics.js"></script>
   <script defer src="js/ui/notification.js"></script>
   <script defer src="js/ui/form-view.js"></script>
   <script defer src="js/ui/records-view.js"></script>
+  <script defer src="js/ui/personal-view.js"></script>
   <script defer src="js/ui/dashboard-view.js"></script>
   <script defer src="js/ui/charts-view.js"></script>
   <script defer src="js/app.js"></script>

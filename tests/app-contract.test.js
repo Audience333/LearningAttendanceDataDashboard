@@ -60,6 +60,12 @@ test("指标模型为数字添加单位并保留课程文本", () => {
   });
 });
 
+test("排行榜模型只呈现积极学习指标", () => {
+  assert.deepEqual(DashboardView.buildRankItems([{ studentName: "张三", durationHours: 4.5 }], "小时"), [
+    { studentName: "张三", value: "4.5 小时" }
+  ]);
+});
+
 test("课程柱状图模型使用真实课程名称和小时值", () => {
   const option = ChartsView.buildCourseBarOption([
     { course: "高等数学", durationHours: 5.5 },

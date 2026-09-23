@@ -58,3 +58,15 @@ test("空记录返回零指标和空课程", () => {
   assert.equal(summary.popularCourse, "暂无数据");
   assert.deepEqual(summary.courseDurations, []);
 });
+
+test("个人名单中文排序，坚持之星按连续天数排列，并计算趋势方向", () => {
+  const rankingRecords = [
+    { studentName: "李四", date: "2026-09-21", course: "高等数学", durationHours: 1 },
+    { studentName: "张三", date: "2026-09-20", course: "高等数学", durationHours: 1 },
+    { studentName: "张三", date: "2026-09-21", course: "高等数学", durationHours: 1 },
+    { studentName: "张三", date: "2026-09-22", course: "高等数学", durationHours: 1 }
+  ];
+  assert.deepEqual(stats.getStudentNames(rankingRecords), ["李四", "张三"]);
+  assert.deepEqual(stats.buildPersistenceStars(rankingRecords, 3).map(item => item.studentName), ["张三", "李四"]);
+  assert.equal(stats.getTrendDirection([{ durationHours: 1 }, { durationHours: 3 }]), "上升");
+});
