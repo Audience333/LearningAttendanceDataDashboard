@@ -3,6 +3,7 @@
 
   const app = root.LearningDashboard = root.LearningDashboard || {};
   let repository = null;
+  let recordFilters = {};
 
   function todayString() {
     return app.Statistics.formatLocalDate(new Date());
@@ -19,27 +20,68 @@
   function refreshAll() {
     const records = repository.list();
     const summary = app.Statistics.buildClassSummary(records, new Date());
-    app.RecordsView.render(records);
+    app.RecordsView.render(app.RecordFilter.filterRecords(records, recordFilters));
     app.DashboardView.render(summary);
     app.ChartsView.renderCourseBar(summary.courseDurations);
   }
 
   function handleSubmit(input) {
+    const editingId = app.FormView.getEditingId();
     const result = app.RecordValidator.validateRecord(input, todayString());
     app.FormView.showErrors(result.errors);
     if (!result.valid) return;
 
     const duplicate = app.RecordValidator.findPotentialDuplicate(repository.list(), result.value);
-    if (duplicate && !root.confirm("同一姓名、日期和课程已有记录，仍要继续保存吗？")) return;
+    if (duplicate && duplicate.id !== editingId && !root.confirm("同一姓名、日期和课程已有记录，仍要继续保存吗？")) return;
 
     try {
-      repository.add(createRecord(result.value));
+      if (editingId) {
+        repository.update(editingId, { ...result.value, updatedAt: new Date().toISOString() });
+      } else {
+        repository.add(createRecord(result.value));
+      }
       refreshAll();
       app.FormView.reset({ keepStudentName: true, date: todayString() });
-      app.Notification.show("学习打卡已保存，并已更新统计数据。", "success");
+      app.Notification.show(editingId ? "学习记录已更新，并已同步统计数据。" : "学习打卡已保存，并已更新统计数据。", "success");
     } catch (error) {
       app.Notification.show(error.message || "保存失败，请稍后重试。", "error");
     }
+  }
+
+  function handleEdit(id) {
+    const record = repository.list().find(item => item.id === id);
+    if (!record) return;
+    app.FormView.populate(record);
+    showView("checkin");
+  }
+
+  function handleDelete(id) {
+    if (!root.confirm("确定删除这条打卡记录吗？")) return;
+    try {
+      repository.remove(id);
+      if (app.FormView.getEditingId() === id) app.FormView.reset({ keepStudentName: true, date: todayString() });
+      refreshAll();
+      app.Notification.show("学习记录已删除，统计数据已同步。", "success");
+    } catch (error) {
+      app.Notification.show(error.message || "删除失败，请稍后重试。", "error");
+    }
+  }
+
+  function initRecordFilters() {
+    const form = document.getElementById("record-filters");
+    form.addEventListener("input", () => {
+      recordFilters = Object.fromEntries(new FormData(form).entries());
+      refreshAll();
+    });
+    form.addEventListener("change", () => {
+      recordFilters = Object.fromEntries(new FormData(form).entries());
+      refreshAll();
+    });
+    document.getElementById("clear-record-filters").addEventListener("click", () => {
+      form.reset();
+      recordFilters = {};
+      refreshAll();
+    });
   }
 
   function initDataFlow() {
@@ -52,6 +94,8 @@
     }
     app.FormView.setDate(todayString());
     app.FormView.bind({ onSubmit: handleSubmit });
+    app.RecordsView.bind({ onEdit: handleEdit, onDelete: handleDelete });
+    initRecordFilters();
     refreshAll();
     root.addEventListener("resize", app.ChartsView.resizeAll);
   }

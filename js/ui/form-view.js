@@ -28,6 +28,10 @@
     return formEntriesToInput(new FormData(getForm()).entries());
   }
 
+  function getEditingId() {
+    return getForm().elements.editingId.value;
+  }
+
   function clearErrors() {
     const form = getForm();
     form.querySelectorAll("[data-error-for]").forEach(element => { element.textContent = ""; });
@@ -61,6 +65,24 @@
     form.elements.studentName.value = studentName;
     form.elements.date.value = date;
     form.elements.completionStatus.value = "completed";
+    form.elements.editingId.value = "";
+    document.getElementById("checkin-title").textContent = "学习打卡";
+    document.getElementById("checkin-description").textContent = "记录今天的学习投入，为统计和成长反馈提供依据。";
+    document.getElementById("checkin-hint").textContent = "提交后，记录将保存在当前浏览器中。";
+    document.getElementById("checkin-submit").textContent = "保存学习打卡";
+    clearErrors();
+  }
+
+  function populate(record) {
+    const form = getForm();
+    ["studentName", "date", "course", "durationHours", "content", "completionStatus", "reflection", "nextPlan"].forEach(name => {
+      form.elements[name].value = record[name] || "";
+    });
+    form.elements.editingId.value = record.id;
+    document.getElementById("checkin-title").textContent = "编辑学习打卡";
+    document.getElementById("checkin-description").textContent = `正在编辑 ${record.studentName} 的 ${record.date} 学习记录。`;
+    document.getElementById("checkin-hint").textContent = "保存后，所有统计与图表会自动同步。";
+    document.getElementById("checkin-submit").textContent = "保存修改";
     clearErrors();
   }
 
@@ -68,5 +90,5 @@
     getForm().elements.date.value = date;
   }
 
-  return { formEntriesToInput, bind, read, showErrors, clearErrors, reset, setDate };
+  return { formEntriesToInput, bind, read, getEditingId, showErrors, clearErrors, reset, populate, setDate };
 });

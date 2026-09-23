@@ -35,6 +35,25 @@
     row.appendChild(cell);
   }
 
+  function actionButton(label, action, id, className) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `button table-action ${className}`;
+    button.dataset.recordAction = action;
+    button.dataset.recordId = id;
+    button.textContent = label;
+    return button;
+  }
+
+  function bind({ onEdit, onDelete }) {
+    document.getElementById("records-body").addEventListener("click", event => {
+      const button = event.target.closest("[data-record-action]");
+      if (!button) return;
+      if (button.dataset.recordAction === "edit") onEdit(button.dataset.recordId);
+      if (button.dataset.recordAction === "delete") onDelete(button.dataset.recordId);
+    });
+  }
+
   function render(records) {
     const body = document.getElementById("records-body");
     const empty = document.getElementById("records-empty");
@@ -51,9 +70,12 @@
       appendCell(row, record.content, "table-content");
       appendCell(row, record.durationLabel);
       appendCell(row, record.statusLabel);
+      const actions = document.createElement("td");
+      actions.append(actionButton("编辑", "edit", record.id, "button-secondary"), " ", actionButton("删除", "delete", record.id, "button-danger"));
+      row.appendChild(actions);
       body.appendChild(row);
     });
   }
 
-  return { buildRecordRows, render };
+  return { buildRecordRows, bind, render };
 });

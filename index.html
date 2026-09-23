@@ -50,8 +50,9 @@
     </section>
 
     <section id="view-checkin" class="view" data-page-title="学习打卡" hidden>
-      <header class="section-heading"><p class="eyebrow">数据入口</p><h1>学习打卡</h1><p>记录今天的学习投入，为统计和成长反馈提供依据。</p></header>
+      <header class="section-heading"><p class="eyebrow">数据入口</p><h1 id="checkin-title">学习打卡</h1><p id="checkin-description">记录今天的学习投入，为统计和成长反馈提供依据。</p></header>
       <form id="checkin-form" class="form-card" novalidate>
+        <input name="editingId" type="hidden" value="">
         <div class="form-grid">
           <div class="field"><label for="student-name">姓名或昵称</label><input id="student-name" name="studentName" maxlength="20" autocomplete="name" required><small data-error-for="studentName"></small></div>
           <div class="field"><label for="checkin-date">学习日期</label><input id="checkin-date" name="date" type="date" required><small data-error-for="date"></small></div>
@@ -62,15 +63,22 @@
           <div class="field field-wide"><label for="reflection">今日收获 <span>选填</span></label><textarea id="reflection" name="reflection" rows="2" maxlength="300"></textarea><small data-error-for="reflection"></small></div>
           <div class="field field-wide"><label for="next-plan">明日计划 <span>选填</span></label><textarea id="next-plan" name="nextPlan" rows="2" maxlength="300"></textarea><small data-error-for="nextPlan"></small></div>
         </div>
-        <div class="form-actions"><p>提交后，记录将保存在当前浏览器中。</p><button class="button button-primary" type="submit">保存学习打卡</button></div>
+        <div class="form-actions"><p id="checkin-hint">提交后，记录将保存在当前浏览器中。</p><button id="checkin-submit" class="button button-primary" type="submit">保存学习打卡</button></div>
       </form>
     </section>
 
     <section id="view-records" class="view" data-page-title="记录列表" hidden>
       <header class="section-heading"><p class="eyebrow">学习足迹</p><h1>记录列表</h1><p>查看并管理已经保存的学习记录。</p></header>
+      <form id="record-filters" class="filter-card" aria-label="筛选学习记录">
+        <label>姓名<input name="studentName" type="search" placeholder="输入姓名"></label>
+        <label>课程<select name="course"><option value="">全部课程</option><option>程序设计基础</option><option>高等数学</option><option>大学英语</option><option>计算机导论</option><option>思想道德与法治</option></select></label>
+        <label>日期<input name="date" type="date"></label>
+        <label>关键词<input name="keyword" type="search" placeholder="内容、收获或计划"></label>
+        <button id="clear-record-filters" class="button button-secondary" type="button">清除筛选</button>
+      </form>
       <div class="table-card">
         <div id="records-empty" class="empty-state" hidden><strong>还没有学习记录</strong><span>完成第一次打卡后，记录会显示在这里。</span></div>
-        <div class="table-scroll"><table><thead><tr><th>姓名</th><th>日期</th><th>课程</th><th>学习内容</th><th>时长</th><th>完成情况</th></tr></thead><tbody id="records-body"></tbody></table></div>
+        <div class="table-scroll"><table><thead><tr><th>姓名</th><th>日期</th><th>课程</th><th>学习内容</th><th>时长</th><th>完成情况</th><th>操作</th></tr></thead><tbody id="records-body"></tbody></table></div>
       </div>
     </section>
 
@@ -104,6 +112,7 @@
   <script defer src="js/data/demo-records.js"></script>
   <script defer src="js/storage/record-repository.js"></script>
   <script defer src="js/domain/record-validator.js"></script>
+  <script defer src="js/domain/record-filter.js"></script>
   <script defer src="js/domain/statistics.js"></script>
   <script defer src="js/ui/notification.js"></script>
   <script defer src="js/ui/form-view.js"></script>
