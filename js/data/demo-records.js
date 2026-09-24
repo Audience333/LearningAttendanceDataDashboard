@@ -6,7 +6,7 @@
 })(typeof window !== "undefined" ? window : globalThis, function () {
   "use strict";
 
-  const students = ["张三", "李四", "王五", "赵六", "陈晨", "刘洋", "周宁", "孙悦"];
+  const students = ["张三", "李四", "王五", "赵六", "陈晨", "刘洋", "周宁", "孙悦", "吴昊", "郑好", "冯雪", "褚明", "卫东", "蒋依", "沈阳", "韩梅", "杨帆", "朱莉", "秦川", "尤佳", "许诺", "何欢", "吕航", "施然", "孔维", "曹颖", "严谨", "华安", "金鑫", "魏然"];
   const courses = ["程序设计基础", "高等数学", "大学英语", "计算机导论", "思想道德与法治"];
   const contents = ["数组与循环练习", "极限与导数复习", "阅读与词汇训练", "计算机组成预习", "章节知识梳理"];
 
@@ -26,7 +26,7 @@
     const anchor = parseLocalDate(anchorDate);
     const records = [];
 
-    for (let dayOffset = 2; dayOffset >= 0; dayOffset -= 1) {
+    for (let dayOffset = 6; dayOffset >= 0; dayOffset -= 1) {
       const date = new Date(anchor);
       date.setDate(anchor.getDate() - dayOffset);
       const dateText = localDateString(date);

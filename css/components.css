@@ -31,6 +31,7 @@
 .metric-card { padding: var(--space-4); }
 .metric-card span, .metric-card small { display: block; color: var(--color-muted); }
 .metric-card strong { display: block; margin-block: 0.3rem; font-size: 2rem; line-height: 1.1; }
+.data-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-4); }
 .placeholder-panel { min-height: 220px; padding: var(--space-5); color: var(--color-muted); }
 
 .form-card, .table-card, .chart-card {

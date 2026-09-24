@@ -104,6 +104,23 @@
     }));
   }
 
+  function initDataActions() {
+    document.getElementById("restore-demo-data").addEventListener("click", () => {
+      if (!root.confirm("恢复演示数据会覆盖当前记录，确定继续吗？")) return;
+      repository.seed(app.DemoData.createDemoRecords(todayString()));
+      recordFilters = {};
+      refreshAll();
+      app.Notification.show("演示数据已恢复。", "success");
+    });
+    document.getElementById("clear-all-data").addEventListener("click", () => {
+      if (!root.confirm("清空全部学习记录后将无法恢复，确定继续吗？")) return;
+      repository.clear();
+      recordFilters = {};
+      refreshAll();
+      app.Notification.show("全部学习记录已清空。", "success");
+    });
+  }
+
   function initDataFlow() {
     repository = app.RecordRepository.createRecordRepository(root.localStorage, app.CONFIG);
     const state = repository.load();
@@ -117,6 +134,7 @@
     app.RecordsView.bind({ onEdit: handleEdit, onDelete: handleDelete });
     initRecordFilters();
     initInsights();
+    initDataActions();
     refreshAll();
     root.addEventListener("resize", app.ChartsView.resizeAll);
   }
