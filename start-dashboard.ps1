@@ -16,6 +16,16 @@ if ($null -eq $python) {
   throw "未找到 Python。请安装 Python 3 后重试。"
 }
 
+$requestedPort = $Port
+for ($portAttempt = 0; $portAttempt -lt 20; $portAttempt++) {
+  $listener = Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue
+  if ($null -eq $listener) { break }
+  $Port++
+}
+if ($Port -ne $requestedPort) {
+  Write-Host "端口 $requestedPort 已被占用，改用端口 $Port。" -ForegroundColor Yellow
+}
+
 $url = "http://127.0.0.1:$Port/"
 $serverArgs = $pythonArgs + @("-m", "http.server", "$Port", "--bind", "127.0.0.1")
 $server = Start-Process -FilePath $python.Source -ArgumentList $serverArgs -WorkingDirectory $projectRoot -WindowStyle Hidden -PassThru
