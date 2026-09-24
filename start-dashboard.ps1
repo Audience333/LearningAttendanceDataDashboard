@@ -1,4 +1,4 @@
-param(
+﻿param(
   [int]$Port = 8765
 )
 
@@ -6,11 +6,11 @@ $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location -LiteralPath $projectRoot
 
-$python = Get-Command py.exe -ErrorAction SilentlyContinue
-$pythonArgs = @("-3")
+$python = Get-Command python.exe -ErrorAction SilentlyContinue
+$pythonArgs = @()
 if ($null -eq $python) {
-  $python = Get-Command python.exe -ErrorAction SilentlyContinue
-  $pythonArgs = @()
+  $python = Get-Command py.exe -ErrorAction SilentlyContinue
+  $pythonArgs = @("-3")
 }
 if ($null -eq $python) {
   throw "未找到 Python。请安装 Python 3 后重试。"
