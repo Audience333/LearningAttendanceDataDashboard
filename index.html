@@ -99,7 +99,7 @@
         <article class="metric-card"><span>热门课程</span><strong id="dashboard-popular-course">暂无数据</strong></article>
         </div>
         <div class="rank-grid"><article class="chart-card"><h2>学习之星</h2><ol id="learning-stars" class="rank-list"></ol></article><article class="chart-card"><h2>坚持之星</h2><ol id="persistence-stars" class="rank-list"></ol></article></div>
-        <article class="chart-card"><div class="card-heading"><div><p class="eyebrow">课程投入</p><h2>本周课程学习时长</h2></div><span>单位：小时</span></div><div id="chart-course-bar" class="chart" aria-label="本周课程学习时长柱状图"></div></article>
+        <div class="dashboard-chart-grid"><article class="chart-card"><div class="card-heading"><h2>七天趋势</h2><span>单位：小时</span></div><div id="chart-trend" class="chart" aria-label="七天学习时长趋势图"></div></article><article class="chart-card"><div class="card-heading"><h2>课程时长</h2><span>单位：小时</span></div><div id="chart-course-bar" class="chart" aria-label="本周课程学习时长柱状图"></div></article><article class="chart-card"><div class="card-heading"><h2>课程占比</h2><span>投入分布</span></div><div id="chart-course-pie" class="chart" aria-label="课程学习时长占比图"></div></article></div>
     </section>
 
     <section id="view-reports" class="view" data-page-title="学习报告" hidden>
@@ -117,6 +117,7 @@
   <script defer src="js/domain/record-validator.js"></script>
   <script defer src="js/domain/record-filter.js"></script>
   <script defer src="js/domain/report-generator.js"></script>
+  <script defer src="js/domain/chart-model.js"></script>
   <script defer src="js/domain/statistics.js"></script>
   <script defer src="js/ui/notification.js"></script>
   <script defer src="js/ui/form-view.js"></script>

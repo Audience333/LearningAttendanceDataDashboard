@@ -23,7 +23,7 @@
     const summary = app.Statistics.buildClassSummary(records, new Date());
     app.RecordsView.render(app.RecordFilter.filterRecords(records, recordFilters));
     app.DashboardView.render(summary);
-    app.ChartsView.renderCourseBar(summary.courseDurations);
+    app.ChartsView.renderAll(app.ChartModel.buildChartModel(summary));
     const names = app.Statistics.getStudentNames(records);
     const picker = document.getElementById("personal-student");
     if (picker) {
@@ -138,6 +138,7 @@
 
     const title = target.dataset.pageTitle || "学习打卡数据看板";
     document.title = `${title} · 学习打卡数据看板`;
+    if (viewName === "dashboard") requestAnimationFrame(() => app.ChartsView.resizeAll());
     history.replaceState(null, "", `#${viewName}`);
   }
 

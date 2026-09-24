@@ -27,6 +27,8 @@
 .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
 .field-wide { grid-column: 1 / -1; }
 .dashboard-metrics { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-bottom: var(--space-4); }
+.dashboard-chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+.dashboard-chart-grid .chart-card:last-child { grid-column: 1 / -1; }
 
 @media (max-width: 960px) {
   .header-inner { align-items: flex-start; flex-direction: column; padding-block: 0.75rem; }
@@ -34,6 +36,8 @@
   .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .dashboard-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+@media (max-width: 900px) { .dashboard-chart-grid { grid-template-columns: 1fr; } .dashboard-chart-grid .chart-card:last-child { grid-column: auto; } }
 
 @media (max-width: 560px) {
   .shell { width: min(calc(100% - 1.25rem), var(--content-max)); }
